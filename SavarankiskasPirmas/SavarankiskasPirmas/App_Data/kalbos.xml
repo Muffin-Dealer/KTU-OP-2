@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<kalbos>
+  <kalba pavadinimas="C#"/>
+  <kalba pavadinimas="C++"/>
+  <kalba pavadinimas="Paskalis"/>
+  <kalba pavadinimas="COBOL"/>
+  <kalba pavadinimas="Fortran"/>
+  <kalba pavadinimas="Asembleris"/>
+</kalbos>
+
+
