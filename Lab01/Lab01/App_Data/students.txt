@@ -1,0 +1,7 @@
+Rūta 1 Arnoldas
+Agnė 3 Nerijus Neda Antanas
+Nerijus 1 Agnė
+Antanas 2 Agnė Marius
+Marius 2 Antanas Neda
+Neda 3 Marius Rūta Agnė
+Arnoldas 1 Rūta

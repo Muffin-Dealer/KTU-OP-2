@@ -17,14 +17,6 @@ namespace SavarankiskasPirmas
             programmingLanguages = pL;
         }
 
-        private List<string> GetProgrammingLanguages()
-        {
-            List<String> pL = new List<string>(); // ProgrammingLanguages
-            foreach (string language in programmingLanguages)
-                pL.Add(language);
-            return pL;
-        }
-
         public string GetLanguagesString()
         {
             return String.Join(" ", programmingLanguages);

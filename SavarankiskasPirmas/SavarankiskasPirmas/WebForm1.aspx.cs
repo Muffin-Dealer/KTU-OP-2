@@ -14,7 +14,11 @@ namespace SavarankiskasPirmas
         {
             data = (List<DataObject>)Session["data"];
             if (data == null)
+            {
                 data = new List<DataObject>();
+                Session["data"] = data;
+            }
+            
             if (DropDownList1.Items.Count == 0)
             {
                 DropDownList1.Items.Add("-");
@@ -32,7 +36,6 @@ namespace SavarankiskasPirmas
             if (TestData())
             {
                 data.Add(new DataObject(TextBox1.Text, int.Parse(DropDownList1.Text), GetCheckBoxList(CheckBoxList1)));
-                Session["data"] = data;
                 Response.Redirect("WebForm1.aspx");
             }
             else
