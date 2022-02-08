@@ -11,18 +11,27 @@ namespace Lab01
     {
         private string studentInput = @"App_Data/students.txt";
         private string connectionInput = @"App_Data/connections.txt";
-        private string outputPath = "App_Data/output.txt";
+        private string initialDataPath = @"App_Data/initial_data.txt";
+        private string outputDataPath = @"App_Data/result.txt";
 
         private Dictionary<string, Student> students;
         private List<Tuple<string, string>> connectionList;
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initial Data
+            TaskUtils.CreateFile(Server.MapPath(initialDataPath));
             students = TaskUtils.ReadStudents(Server.MapPath(studentInput));
             FillTableWithStudents(new List<Student>(students.Values), StudentTable);
+            TaskUtils.AppendInitialStudentData(new List<Student>(students.Values), Server.MapPath(initialDataPath));
+
             connectionList = TaskUtils.ReadConnections(Server.MapPath(connectionInput));
             FillTableWithConnections(connectionList, ConnectionTable);
+            TaskUtils.AppendInnitialConnectionData(connectionList, Server.MapPath(initialDataPath));
+
+
             FillPathTable(students, connectionList, PathTable);
+            TaskUtils.CreateFile(Server.MapPath(outputDataPath));
+            TaskUtils.AppendConnectionResults(students, connectionList, Server.MapPath(outputDataPath));
 
         }
 

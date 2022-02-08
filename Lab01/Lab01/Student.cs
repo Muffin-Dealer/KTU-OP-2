@@ -46,7 +46,7 @@ namespace Lab01
         /// </summary>
         public override string ToString()
         {
-            return Name;
+            return $"{Name,-20}|{Friends.Count,20}|{GetFriendsString()}";
         }
     }
 }

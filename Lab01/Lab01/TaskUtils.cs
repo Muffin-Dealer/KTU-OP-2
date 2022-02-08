@@ -114,5 +114,61 @@ namespace Lab01
                 return $"bendri pažįstami: {String.Join(" ", path)}";
             }
         }
+
+        /// <summary>
+        /// Creates a new empty file, ready for appending data
+        /// </summary>
+        /// <param name="path"></param>
+        public static void CreateFile(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.CreateNew))
+                new StreamWriter(fs, encoding: System.Text.Encoding.UTF8).Close();
+        }
+       
+
+        /// <summary>
+        /// appends students to TXT file
+        /// </summary>
+        public static void AppendInitialStudentData(List<Student> students, string path)
+        {
+            using (StreamWriter sr = new StreamWriter(path, append:true))
+            {
+                sr.WriteLine("Studentai ir jų draugai");
+                sr.WriteLine($"{"Studentas",-20}|{"Draugų kiekis",-20}|{"Draugai:"}");
+                foreach (Student student in students)
+                    sr.WriteLine(student);
+                sr.WriteLine();
+            }
+        }
+
+        public static void AppendInnitialConnectionData(List<Tuple<string, string>> connections, string path)
+        {
+            using (StreamWriter sr = new StreamWriter(path, append:true))
+            {
+                sr.WriteLine("Studentai ir jų ieškomi draugai:");
+                sr.WriteLine($"{"Studentas",-20} {"Ieškomas draugas",-20}");
+                foreach (Tuple<string, string> connection in connections)
+                    sr.WriteLine($"{connection.Item1,-20} {connection.Item2,-20}");
+                sr.WriteLine();
+            }
+        }
+
+        public static void AppendConnectionResults(Dictionary<string, Student> students, List<Tuple<string, string>> connections, string outputPath)
+        {
+
+            using (StreamWriter sr = new StreamWriter(outputPath))
+            {
+                sr.WriteLine("Draugai ir jų junginiai, bei keliai:");
+                sr.WriteLine($"{"Draugas",-20}|{"Ieškomas draugas:",-20}|{"Kelias:"}");
+                foreach (Tuple<string, string> connection in connections)
+                {
+                    List<string> studentPath = new List<string>();
+                    studentPath.Add(connection.Item1);
+                    studentPath = FindConnection(connection.Item1, connection.Item2, studentPath, students);
+                    string pathText = TaskUtils.CreatePathText(studentPath);
+                    sr.WriteLine($"{connection.Item1,-20}|{connection.Item2,-20}|{pathText}");
+                }
+            }
+        }
     }
 }
