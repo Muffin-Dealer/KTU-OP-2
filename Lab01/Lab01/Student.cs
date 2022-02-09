@@ -12,7 +12,7 @@ namespace Lab01
     {
         public string Name { get; set; }
         private List<string> Friends;
-        public int FriendCount { get { return Friends.Count; }}
+        public int FriendCount { get { return Friends.Count; } }
 
         /// <summary>
         /// Constructor

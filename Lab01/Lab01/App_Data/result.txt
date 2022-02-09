@@ -1,5 +1,5 @@
 Draugai ir jų junginiai, bei keliai:
 Draugas             |Ieškomas draugas:   |Kelias:
-Rūta                |Nerijus             |negali susipažinti
-Agnė                |Antanas             |jau pažįstami
-Neda                |Nerijus             |bendri pažįstami: Agnė
+a                   |f                   |bendri pažįstami: g h
+a                   |b                   |jau pažįstami
+a                   |e                   |negali susipažinti

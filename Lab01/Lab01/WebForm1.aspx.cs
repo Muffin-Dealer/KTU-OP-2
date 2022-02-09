@@ -21,17 +21,28 @@ namespace Lab01
             // Initial Data
             TaskUtils.CreateFile(Server.MapPath(initialDataPath));
             students = TaskUtils.ReadStudents(Server.MapPath(studentInput));
-            FillTableWithStudents(new List<Student>(students.Values), StudentTable);
-            TaskUtils.AppendInitialStudentData(new List<Student>(students.Values), Server.MapPath(initialDataPath));
+            
+            FillTableWithStudents(new List<Student>(students.Values), 
+                                  StudentTable);
+            
+            TaskUtils.AppendInitStudents(new List<Student>(students.Values), 
+                                               Server.MapPath(initialDataPath));
 
             connectionList = TaskUtils.ReadConnections(Server.MapPath(connectionInput));
-            FillTableWithConnections(connectionList, ConnectionTable);
-            TaskUtils.AppendInnitialConnectionData(connectionList, Server.MapPath(initialDataPath));
+            
+            FillTableWithConnections(connectionList, 
+                                     ConnectionTable);
+            
+            TaskUtils.AppendInitData(connectionList, 
+                                     Server.MapPath(initialDataPath));
 
 
             FillPathTable(students, connectionList, PathTable);
             TaskUtils.CreateFile(Server.MapPath(outputDataPath));
-            TaskUtils.AppendConnectionResults(students, connectionList, Server.MapPath(outputDataPath));
+            
+            TaskUtils.AppendConnectionResults(students, 
+                                              connectionList, 
+                                              Server.MapPath(outputDataPath));
 
         }
 
@@ -60,7 +71,9 @@ namespace Lab01
         /// <summary>
         /// Used to show initial connection data
         /// </summary>
-        protected void FillTableWithConnections(List<Tuple<string,string>> connections, Table table)
+        protected void FillTableWithConnections(List<Tuple<string,
+                                                           string>> connections, 
+                                                Table table)
         {
             TableRow row = new TableRow();
             row.Cells.Add(CreateCell("Draugas"));
@@ -88,7 +101,9 @@ namespace Lab01
             return cell;
         }
 
-        protected void FillPathTable(Dictionary<string, Student> students, List<Tuple<string, string>> connections, Table table)
+        protected void FillPathTable(Dictionary<string, Student> students, 
+                                     List<Tuple<string, string>> connections, 
+                                     Table table)
         {
             TableRow row = new TableRow();
             row.Cells.Add(CreateCell("Draugas"));
@@ -100,7 +115,10 @@ namespace Lab01
             {    
                 List<string> path = new List<string>();
                 path.Add(connection.Item1);
-                path = TaskUtils.FindConnection(connection.Item1, connection.Item2, path, students);
+                path = TaskUtils.FindConnection(connection.Item1, 
+                                                connection.Item2, 
+                                                path, students);
+
                 string pathText = TaskUtils.CreatePathText(path);
 
                 row = new TableRow();

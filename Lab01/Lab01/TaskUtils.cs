@@ -6,6 +6,9 @@ using System.Web;
 
 namespace Lab01
 {
+    /// <summary>
+    /// TaskUtils class for extra (backend) computation functions
+    /// </summary>
     public static class TaskUtils
     {
         /// <summary>
@@ -102,6 +105,9 @@ namespace Lab01
             return copy;
         }
 
+        /// <summary>
+        /// Creates connection depending on the path
+        /// </summary>
         public static string CreatePathText(List<string> path)
         {
             if (path == null)
@@ -121,7 +127,7 @@ namespace Lab01
         /// <param name="path"></param>
         public static void CreateFile(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.CreateNew))
+            using (FileStream fs = new FileStream(path, FileMode.Create))
                 new StreamWriter(fs, encoding: System.Text.Encoding.UTF8).Close();
         }
        
@@ -129,7 +135,7 @@ namespace Lab01
         /// <summary>
         /// appends students to TXT file
         /// </summary>
-        public static void AppendInitialStudentData(List<Student> students, string path)
+        public static void AppendInitStudents(List<Student> students, string path)
         {
             using (StreamWriter sr = new StreamWriter(path, append:true))
             {
@@ -141,7 +147,10 @@ namespace Lab01
             }
         }
 
-        public static void AppendInnitialConnectionData(List<Tuple<string, string>> connections, string path)
+        /// <summary>
+        /// Appends initial connection data to output file
+        /// </summary>
+        public static void AppendInitData(List<Tuple<string, string>> connections, string path)
         {
             using (StreamWriter sr = new StreamWriter(path, append:true))
             {
@@ -153,6 +162,9 @@ namespace Lab01
             }
         }
 
+        /// <summary>
+        /// Appends output connection data to output file
+        /// </summary>
         public static void AppendConnectionResults(Dictionary<string, Student> students, List<Tuple<string, string>> connections, string outputPath)
         {
 
