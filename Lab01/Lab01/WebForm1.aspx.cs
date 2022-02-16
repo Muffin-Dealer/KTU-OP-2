@@ -19,28 +19,28 @@ namespace Lab01
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initial Data
-            TaskUtils.CreateFile(Server.MapPath(initialDataPath));
-            students = TaskUtils.ReadStudents(Server.MapPath(studentInput));
+            InOutUtils.CreateFile(Server.MapPath(initialDataPath));
+            students = InOutUtils.ReadStudents(Server.MapPath(studentInput));
             
             FillTableWithStudents(new List<Student>(students.Values), 
                                   StudentTable);
-            
-            TaskUtils.AppendInitStudents(new List<Student>(students.Values), 
+
+            InOutUtils.AppendInitStudents(new List<Student>(students.Values), 
                                                Server.MapPath(initialDataPath));
 
-            connectionList = TaskUtils.ReadConnections(Server.MapPath(connectionInput));
+            connectionList = InOutUtils.ReadConnections(Server.MapPath(connectionInput));
             
             FillTableWithConnections(connectionList, 
                                      ConnectionTable);
-            
-            TaskUtils.AppendInitData(connectionList, 
+
+            InOutUtils.AppendInitData(connectionList, 
                                      Server.MapPath(initialDataPath));
 
 
             FillPathTable(students, connectionList, PathTable);
-            TaskUtils.CreateFile(Server.MapPath(outputDataPath));
+            InOutUtils.CreateFile(Server.MapPath(outputDataPath));
             
-            TaskUtils.AppendConnectionResults(students, 
+            InOutUtils.AppendConnectionResults(students, 
                                               connectionList, 
                                               Server.MapPath(outputDataPath));
 
@@ -49,6 +49,8 @@ namespace Lab01
         /// <summary>
         /// Used to show initial Student Data
         /// </summary>
+        /// <param name="students">List Student data type</param>
+        /// <param name="table">Table Object data type</param>
         protected void FillTableWithStudents(List<Student> students, Table table)
         {
             TableRow row = new TableRow();
@@ -71,6 +73,8 @@ namespace Lab01
         /// <summary>
         /// Used to show initial connection data
         /// </summary>
+        /// <param name="connections">List of Tuples compromised of string, string containing the initial node and end node to use for DFS</param>
+        /// <param name="table">Table object data type</param>
         protected void FillTableWithConnections(List<Tuple<string,
                                                            string>> connections, 
                                                 Table table)
@@ -93,6 +97,8 @@ namespace Lab01
         /// <summary>
         /// Creates A cell with provided Text
         /// </summary>
+        /// <param name="text">text to be added to the Cell.text param</param>
+        /// <returns>TableCell object</returns>
         protected TableCell CreateCell(string text)
         {
             TableCell cell = new TableCell();
@@ -101,6 +107,12 @@ namespace Lab01
             return cell;
         }
 
+        /// <summary>
+        /// Fills the table with paths from student a to b
+        /// </summary>
+        /// <param name="students"> Dictionary, key -> string of the student, value -> student object</param>
+        /// <param name="connections">List of Tuples compromised of string, string containing the initial node and end node to use for DFS</param>
+        /// <param name="table">Table object where the data will be added</param>
         protected void FillPathTable(Dictionary<string, Student> students, 
                                      List<Tuple<string, string>> connections, 
                                      Table table)

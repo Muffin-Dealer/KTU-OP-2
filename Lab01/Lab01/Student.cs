@@ -20,7 +20,9 @@ namespace Lab01
         public Student(string name, List<string> friends)
         {
             Name = name;
-            Friends = friends;
+            Friends = new List<string>();
+            foreach (string friend in friends)
+                Friends.Add(friend);
         }
 
         /// <summary>
@@ -39,11 +41,13 @@ namespace Lab01
         /// <summary>
         /// Transforms Friends list into a string seperated by spaces
         /// </summary>
+        /// <returns>string of all friends</returns>
         public string GetFriendsString() => String.Join(" ", Friends);
 
         /// <summary>
         /// ToString Override
         /// </summary>
+        /// <returns>string version of the object: Name, Friend Count, Friends</returns>
         public override string ToString()
         {
             return $"{Name,-20}|{Friends.Count,20}|{GetFriendsString()}";

@@ -11,51 +11,6 @@ namespace Lab01
     /// </summary>
     public static class TaskUtils
     {
-        /// <summary>
-        /// Creates a name to Student class object relation dictionary
-        /// </summary>
-        /// <param name="path">Path to the the text file containing the data</param>
-        /// <returns>Dictionary(key -> string, value -> Student class object) </returns>
-        public static Dictionary<string,Student> ReadStudents(string path)
-        {
-            Dictionary<string, Student> students = new Dictionary<string, Student>();
-            using (StreamReader sr = new StreamReader(path))
-            {
-                string line;
-                while((line = sr.ReadLine()) != null)
-                {
-                    string[] elements = line.Split(' ');
-                    string name = elements[0];
-                    List<string> friends = new List<string>();
-                    for (int i = 2; i < elements.Length; i++)
-                        friends.Add(elements[i]);
-
-                    students.Add(name, new Student(name, friends));
-                }
-            }
-            return students;
-        }
-
-        /// <summary>
-        /// Gets the connections of students
-        /// </summary>
-        /// <param name="path">.txt file to the input</param>
-        /// <returns>List of Tupples(string, string)</returns>
-        public static List<Tuple<string, string>> ReadConnections(string path)
-        {
-            List<Tuple<string, string>> conncetions = new List<Tuple<string, string>>();
-            using (StreamReader sr = new StreamReader(path))
-            {
-                string line;
-                while((line = sr.ReadLine()) != null)
-                {
-                    string[] elements = line.Split(' ');
-                    conncetions.Add(new Tuple<string, string>(elements[0], elements[1]));
-                }
-            }
-
-            return conncetions;
-        }
 
         /// <summary>
         /// Recursive implementation of DFS
@@ -108,6 +63,8 @@ namespace Lab01
         /// <summary>
         /// Creates connection depending on the path
         /// </summary>
+        /// <param name="path"> List of strings that the path is compromised of </param>
+        /// <returns>a string form of the path from student a to student b</returns>
         public static string CreatePathText(List<string> path)
         {
             if (path == null)
@@ -121,66 +78,6 @@ namespace Lab01
             }
         }
 
-        /// <summary>
-        /// Creates a new empty file, ready for appending data
-        /// </summary>
-        /// <param name="path"></param>
-        public static void CreateFile(string path)
-        {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-                new StreamWriter(fs, encoding: System.Text.Encoding.UTF8).Close();
-        }
-       
-
-        /// <summary>
-        /// appends students to TXT file
-        /// </summary>
-        public static void AppendInitStudents(List<Student> students, string path)
-        {
-            using (StreamWriter sr = new StreamWriter(path, append:true))
-            {
-                sr.WriteLine("Studentai ir jų draugai");
-                sr.WriteLine($"{"Studentas",-20}|{"Draugų kiekis",-20}|{"Draugai:"}");
-                foreach (Student student in students)
-                    sr.WriteLine(student);
-                sr.WriteLine();
-            }
-        }
-
-        /// <summary>
-        /// Appends initial connection data to output file
-        /// </summary>
-        public static void AppendInitData(List<Tuple<string, string>> connections, string path)
-        {
-            using (StreamWriter sr = new StreamWriter(path, append:true))
-            {
-                sr.WriteLine("Studentai ir jų ieškomi draugai:");
-                sr.WriteLine($"{"Studentas",-20} {"Ieškomas draugas",-20}");
-                foreach (Tuple<string, string> connection in connections)
-                    sr.WriteLine($"{connection.Item1,-20} {connection.Item2,-20}");
-                sr.WriteLine();
-            }
-        }
-
-        /// <summary>
-        /// Appends output connection data to output file
-        /// </summary>
-        public static void AppendConnectionResults(Dictionary<string, Student> students, List<Tuple<string, string>> connections, string outputPath)
-        {
-
-            using (StreamWriter sr = new StreamWriter(outputPath))
-            {
-                sr.WriteLine("Draugai ir jų junginiai, bei keliai:");
-                sr.WriteLine($"{"Draugas",-20}|{"Ieškomas draugas:",-20}|{"Kelias:"}");
-                foreach (Tuple<string, string> connection in connections)
-                {
-                    List<string> studentPath = new List<string>();
-                    studentPath.Add(connection.Item1);
-                    studentPath = FindConnection(connection.Item1, connection.Item2, studentPath, students);
-                    string pathText = TaskUtils.CreatePathText(studentPath);
-                    sr.WriteLine($"{connection.Item1,-20}|{connection.Item2,-20}|{pathText}");
-                }
-            }
-        }
+    
     }
 }

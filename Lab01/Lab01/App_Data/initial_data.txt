@@ -1,17 +1,16 @@
 ﻿Studentai ir jų draugai
 Studentas           |Draugų kiekis       |Draugai:
-a                   |                   2|g b
-b                   |                   2|a c
-c                   |                   2|b f
-d                   |                   1|e
-e                   |                   1|d
-f                   |                   2|h c
-g                   |                   2|a h
-h                   |                   2|g f
+Rūta                |                   1|Arnoldas
+Agnė                |                   3|Nerijus Neda Antanas
+Nerijus             |                   1|Agnė
+Antanas             |                   2|Agnė Marius
+Marius              |                   2|Antanas Neda
+Neda                |                   3|Marius Rūta Agnė
+Arnoldas            |                   1|Rūta
 
 Studentai ir jų ieškomi draugai:
 Studentas            Ieškomas draugas    
-a                    f                   
-a                    b                   
-a                    e                   
+Rūta                 Nerijus             
+Agnė                 Antanas             
+Neda                 Nerijus             
 
