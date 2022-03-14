@@ -76,7 +76,7 @@ namespace Lab01
         /// <param name="connections">List of Tuples compromised of string, string containing the initial node and end node to use for DFS</param>
         /// <param name="table">Table object data type</param>
         protected void FillTableWithConnections(List<Tuple<string,
-                                                           string>> connections, 
+                                                           string>> connections,
                                                 Table table)
         {
             TableRow row = new TableRow();
@@ -127,7 +127,7 @@ namespace Lab01
             {    
                 List<string> path = new List<string>();
                 path.Add(connection.Item1);
-                path = TaskUtils.FindConnection(connection.Item1, aaaaa
+                path = TaskUtils.FindConnection(connection.Item1,
                                                 connection.Item2, 
                                                 path, students);
 

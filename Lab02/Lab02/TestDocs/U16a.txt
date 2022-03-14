@@ -1,0 +1,4 @@
+﻿11; Elektra; 0.12
+21; Dujos; 0.58
+31; Benzinas; 1.78
+32; Diezelis; 1.90

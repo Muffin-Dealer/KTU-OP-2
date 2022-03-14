@@ -1,0 +1,27 @@
+﻿Tax Sum of all citizens:
+
+LastName             FirstName           |Address             |TaxSum    |
+Pavardauskis          Vardenis           | Adresatas          |     15.96|
+Tomas                 Tomukas            | Tomo namas 1       |     19.11|
+
+Tax Sum of all citizens SORTED A-Z:
+
+LastName             FirstName           |Address             |TaxSum    |
+Tomas                 Tomukas            | Tomo namas 1       |     19.11|
+Pavardauskis          Vardenis           | Adresatas          |     15.96|
+
+All Citizen TOTAL Tax Sum: 35.07
+
+Average Tax Sum: 17.54
+
+Citizens who paid above average:
+
+LastName             FirstName           |Address             |TaxSum    |
+Tomas                 Tomukas            | Tomo namas 1       |     19.11|
+
+Citizens who did not pay TaxCode: "VAND" on Month: "Balandis"
+
+LastName             FirstName           |Address             |TaxSum    |
+Tomas                 Tomukas            | Tomo namas 1       |     19.11|
+Pavardauskis          Vardenis           | Adresatas          |     15.96|
+

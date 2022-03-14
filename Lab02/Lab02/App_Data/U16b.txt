@@ -1,0 +1,9 @@
+﻿Pavardauskis; Vardenis; Adresatas;Vasaris;Benzinas;28;
+Pavardauskis; Vardenis; Adresatas;Vasaris;VAND;14;
+Pavardauskis; Vardenis; Adresatas;Kovas;KVND;20;
+Pavardauskis; Vardenis; Adresatas;Kovas;LH20;30;
+Pavardauskis; Vardenis; Adresatas;Kovas;VAND;15;
+Pavardauskis; Vardenis; Adresatas;Balandis;VAND;99;
+Tomas; Tomukas; Tomo namas 1;Kovas;VAND;97;
+Tomas; Tomukas; Tomo namas 1;Balandis;VAND;156;
+Tomas; Tomukas; Tomo namas 1;Rugsėjis;VAND;20;
