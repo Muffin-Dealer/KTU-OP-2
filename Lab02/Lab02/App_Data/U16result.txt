@@ -1,27 +1,70 @@
-﻿Tax Sum of all citizens:
+﻿Initial Tax Company Data:
+
+TaxCode             |TaxName             |     Price|
+11                  | Elektra            |      0.12|
+21                  | Dujos              |      0.58|
+31                  | Benzinas           |      1.78|
+32                  | Diezelis           |      1.90|
+
+Initial Citizen Tax Data:
+
+LastName             FirstName           |Address             |Month          |TaxCode             | TaxAmount|
+ vardas1             pavardė1            | adresas1           |1              |22                  |        28|
+ vardas1             pavardė1            | adresas1           |5              |22                  |        20|
+ vardas1             pavardė1            | adresas1           |1              |32                  |       100|
+ vardas1             pavardė1            | adresas1           |2              |32                  |        97|
+ vardas1             pavardė1            | adresas1           |3              |32                  |        63|
+ vardas1             pavardė1            | adresas1           |2              |22                  |        25|
+ vardas1             pavardė1            | adresas1           |3              |22                  |        29|
+ vardasAA            pavardėAA           | adresasAA          |1              |21                  |        13|
+ vardasAA            pavardėAA           | adresasAA          |2              |21                  |        84|
+ vardasAA            pavardėAA           | adresasAA          |3              |21                  |        76|
+ vardas1             pavardė1            | adresas1           |4              |22                  |        39|
+ vardas2             pavardė2            | adresas2           |3              |31                  |        67|
+ vardas2             pavardė2            | adresas2           |4              |31                  |        98|
+ vardas2             pavardė0            | adresas2           |5              |31                  |       125|
+ vardas0             pavardė0            | adresas3           |1              |11                  |        31|
+ vardas1             pavardė1            | adresas1           |4              |32                  |        39|
+ vardas1             pavardė1            | adresas1           |5              |32                  |        20|
+ vardas1             pavardė1            | adresas1           |3              |11                  |        80|
+ vardas1             pavardė1            | adresas1           |4              |11                  |        39|
+ vardas1             pavardė1            | adresas1           |1              |11                  |       120|
+ vardas1             pavardė1            | adresas1           |2              |11                  |       100|
+ vardas1             pavardė1            | adresas1           |5              |11                  |       139|
+ vardas2             pavardė2            | adresas2           |1              |31                  |        31|
+ vardas2             pavardė2            | adresas2           |2              |31                  |        48|
+ vardas0             pavardė0            | adresas3           |2              |11                  |        48|
+ vardas0             pavardė0            | adresas3           |3              |11                  |        67|
+ vardas0             pavardė0            | adresas3           |4              |11                  |        98|
+ vardas0             pavardė0            | adresas3           |5              |11                  |       125|
+ vardasAA            pavardėAA           | adresasAA          |4              |21                  |         8|
+ vardasAA            pavardėAA           | adresasAA          |5              |21                  |        25|
+
+Tax Sum of all citizens:
 
 LastName             FirstName           |Address             |TaxSum    |
-Pavardauskis          Vardenis           | Adresatas          |     15.96|
-Tomas                 Tomukas            | Tomo namas 1       |     19.11|
+ vardas1             pavardė1            | adresas1           |    663.46|
+ vardasAA            pavardėAA           | adresasAA          |    119.48|
+ vardas2             pavardė2            | adresas2           |    434.32|
+ vardas2             pavardė0            | adresas2           |    222.50|
+ vardas0             pavardė0            | adresas3           |     44.28|
 
 Tax Sum of all citizens SORTED A-Z:
 
 LastName             FirstName           |Address             |TaxSum    |
-Tomas                 Tomukas            | Tomo namas 1       |     19.11|
-Pavardauskis          Vardenis           | Adresatas          |     15.96|
+ vardasAA            pavardėAA           | adresasAA          |    119.48|
+ vardas0             pavardė0            | adresas3           |     44.28|
+ vardas2             pavardė2            | adresas2           |    434.32|
+ vardas2             pavardė0            | adresas2           |    222.50|
+ vardas1             pavardė1            | adresas1           |    663.46|
 
-All Citizen TOTAL Tax Sum: 35.07
+All Citizen TOTAL Tax Sum: 1484.04
 
-Average Tax Sum: 17.54
+Average Tax Sum: 296.81
 
 Citizens who paid above average:
 
 LastName             FirstName           |Address             |TaxSum    |
-Tomas                 Tomukas            | Tomo namas 1       |     19.11|
-
-Citizens who did not pay TaxCode: "VAND" on Month: "Balandis"
-
-LastName             FirstName           |Address             |TaxSum    |
-Tomas                 Tomukas            | Tomo namas 1       |     19.11|
-Pavardauskis          Vardenis           | Adresatas          |     15.96|
+ vardas2             pavardė2            | adresas2           |    434.32|
+ vardas1             pavardė1            | adresas1           |    663.46|
 

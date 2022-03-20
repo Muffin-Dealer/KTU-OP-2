@@ -15,8 +15,9 @@ namespace Lab02
         private string outputDataPath = @"App_Data/U16result.txt";
         protected void Page_Load(object sender, EventArgs e)
         {
-            CitizenTaxData citizenTaxData = null;
+            CitizenTax citizenTaxData = null;
             Tax taxInfo = null;
+            InOutUtils.CreateFile(Server.MapPath(outputDataPath));
             if (File.Exists(Server.MapPath(taxDataInput)))
             {
                 taxInfo = InOutUtils.ReadTaxData(Server.MapPath(taxDataInput));
@@ -42,7 +43,6 @@ namespace Lab02
             if (citizenTaxData != null && taxInfo != null)
             {
                 // Reads Initial Data and Outputs the Initial Data To WebForm and to text
-                InOutUtils.CreateFile(Server.MapPath(outputDataPath));
 
 
                 CitizenCalculations(taxInfo, citizenTaxData);
@@ -55,9 +55,14 @@ namespace Lab02
             }
         }
 
-        protected void CitizenCalculations(Tax taxInfo, CitizenTaxData citizenTaxData)
+        /// <summary>
+        /// Does calculations from Tax and CitizenTax object
+        /// </summary>
+        /// <param name="taxInfo">Tax object</param>
+        /// <param name="citizenTaxData">CitizenTax object</param>
+        protected void CitizenCalculations(Tax taxInfo, CitizenTax citizenTaxData)
         {
-            Citizen citizensAverage = citizenTaxData.CreateCitizenData(taxInfo); // For Above Average
+            Citizen citizensAverage = TaskUtils.CreateCitizenData(taxInfo, citizenTaxData); // For Above Average
             InOutUtils.WriteCitizenData(Server.MapPath(outputDataPath), citizensAverage, "Tax Sum of all citizens:");
             
             citizensAverage.Sort();
@@ -75,11 +80,16 @@ namespace Lab02
             InOutUtils.WriteCitizenData(Server.MapPath(outputDataPath), citizensAverage, "Citizens who paid above average:");
             FillCitizenTable(citizensAverage, AboveAverageTable);
         }
-        protected void CheckFiltered(Tax taxInfo, CitizenTaxData citizenTaxData)
+        /// <summary>
+        /// Updates filtered data
+        /// </summary>
+        /// <param name="taxInfo">Tax Object</param>
+        /// <param name="citizenTaxData">CitizenTax object</param>
+        protected void CheckFiltered(Tax taxInfo, CitizenTax citizenTaxData)
         {
             if (Session["TaxCode"] != null && Session["Month"] != null)
             {
-                Citizen citizensFiltered = citizenTaxData.CreateCitizenData(taxInfo); // For Filter
+                Citizen citizensFiltered = TaskUtils.CreateCitizenData(taxInfo, citizenTaxData); // For Filter
                 citizensFiltered.Sort();
                 citizensFiltered.RemoveWhoDidNotPayTax(Session["TaxCode"].ToString(), Session["Month"].ToString(), citizenTaxData);
                 InOutUtils.WriteCitizenData(Server.MapPath(outputDataPath), citizensFiltered, $"Citizens who paid TaxCode: \"{Session["TaxCode"]}\" on Month: \"{Session["Month"]}\"");
@@ -94,46 +104,64 @@ namespace Lab02
             Session["Month"] = null;
         }
 
-        protected void FillCitizenTaxDataTable(CitizenTaxData data, Table table)
+        /// <summary>
+        /// Fills Table from CitizenTax object
+        /// </summary>
+        /// <param name="citizenTaxes">Citizen Tax Object</param>
+        /// <param name="table">Table UI object</param>
+        protected void FillCitizenTaxDataTable(CitizenTax citizenTaxes, Table table)
         {
             TableRow headerRow = new TableRow();
-            headerRow.Cells.Add(TaskUtils.CreateCell("Last Name"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("First Name"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Address"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Month"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Tax Code"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Amount"));
+            headerRow.Cells.Add(CreateCell("Last Name"));
+            headerRow.Cells.Add(CreateCell("First Name"));
+            headerRow.Cells.Add(CreateCell("Address"));
+            headerRow.Cells.Add(CreateCell("Month"));
+            headerRow.Cells.Add(CreateCell("Tax Code"));
+            headerRow.Cells.Add(CreateCell("Amount"));
             table.Rows.Add(headerRow);
-            for (int i = 0; i < data.Count; i++)
+            for (citizenTaxes.Begin(); citizenTaxes.Exist(); citizenTaxes.Next())
             {
-                table.Rows.Add(data.GetRow(i));
+                CitizenTaxData data = citizenTaxes.Get();
+                table.Rows.Add(GetRow(data));
             }
         }
 
-        protected void FillTaxDataTable(Tax data, Table table)
+        /// <summary>
+        /// Fills Table from Tax object
+        /// </summary>
+        /// <param name="taxes">Tax object</param>
+        /// <param name="table">UI Table object</param>
+        protected void FillTaxDataTable(Tax taxes, Table table)
         {
             TableRow headerRow = new TableRow();
-            headerRow.Cells.Add(TaskUtils.CreateCell("Tax Code"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Tax Company Name:"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Price:"));;
+            headerRow.Cells.Add(CreateCell("Tax Code"));
+            headerRow.Cells.Add(CreateCell("Tax Company Name:"));
+            headerRow.Cells.Add(CreateCell("Price:"));;
             table.Rows.Add(headerRow);
-            for (int i = 0; i < data.Count; i++)
+            for (taxes.Begin(); taxes.Exist(); taxes.Next())
             {
-                table.Rows.Add(data.GetRow(i));
+                TaxData data = taxes.Get();
+                table.Rows.Add(GetRow(data));
             }
         }
 
-        protected void FillCitizenTable(Citizen data, Table table)
+        /// <summary>
+        /// Fills citizen table
+        /// </summary>
+        /// <param name="citizens">Citizen object</param>
+        /// <param name="table">UI.Table object</param>
+        protected void FillCitizenTable(Citizen citizens, Table table)
         {
             TableRow headerRow = new TableRow();
-            headerRow.Cells.Add(TaskUtils.CreateCell("Last Name"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("First Name"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Address"));
-            headerRow.Cells.Add(TaskUtils.CreateCell("Tax Sum"));
+            headerRow.Cells.Add(CreateCell("Last Name"));
+            headerRow.Cells.Add(CreateCell("First Name"));
+            headerRow.Cells.Add(CreateCell("Address"));
+            headerRow.Cells.Add(CreateCell("Tax Sum"));
             table.Rows.Add(headerRow);
-            for (int i = 0; i < data.Count; i++)
+            for (citizens.Begin(); citizens.Exist(); citizens.Next())
             {
-                table.Rows.Add(data.GetRow(i));
+                CitizenData data = citizens.Get();
+                table.Rows.Add(GetRow(data));
             }
         }
 
@@ -160,6 +188,67 @@ namespace Lab02
                 FileUpload2.SaveAs(Server.MapPath(citizenDataInput));
             }
             Response.Redirect("Lab01Form.aspx");
+        }
+
+        /// <summary>
+        /// Creates TableCell from text to speed up TableCell creation
+        /// </summary>
+        /// <param name="text">string text to add to the table cell</param>
+        /// <returns>TableCell class object</returns>
+        protected static TableCell CreateCell(string text)
+        {
+            TableCell cell = new TableCell();
+            cell.Text = text;
+            return cell;
+        }
+
+        /// <summary>
+        /// Creates TableRow from TaxData object
+        /// </summary>
+        /// <param name="data">TaxData object</param>
+        /// <returns>TableRow object</returns>
+        public TableRow GetRow(TaxData data)
+        {
+            TableRow row = new TableRow();
+            row.Cells.Add(CreateCell(data.TaxCode));
+            row.Cells.Add(CreateCell(data.TaxName));
+            row.Cells.Add(CreateCell(data.Price.ToString()));
+            return row;
+
+        }
+
+        /// <summary>
+        /// Creates a row from CitizenTaxData
+        /// </summary>
+        /// <param name="data">CitizenTaxData class object</param>
+        /// <returns>TableRow object</returns>
+        public TableRow GetRow(CitizenTaxData data)
+        {
+            TableRow row = new TableRow();
+            row.Cells.Add(CreateCell(data.LastName));
+            row.Cells.Add(CreateCell(data.FirstName));
+            row.Cells.Add(CreateCell(data.Address));
+            row.Cells.Add(CreateCell(data.Month));
+            row.Cells.Add(CreateCell(data.TaxCode));
+            row.Cells.Add(CreateCell(data.TaxAmount.ToString()));
+            return row;
+        }
+
+
+
+        /// <summary>
+        /// Returns cictizen in TableRow format for the specified citizen
+        /// </summary>
+        /// <param name="data">data of the citizen</param>
+        /// <returns>TableRow format of the specified citizen</returns>
+        public TableRow GetRow(CitizenData data)
+        {
+            TableRow row = new TableRow();
+            row.Cells.Add(CreateCell(data.LastName));
+            row.Cells.Add(CreateCell(data.FirstName));
+            row.Cells.Add(CreateCell(data.Address));
+            row.Cells.Add(CreateCell(data.TaxSum.ToString()));
+            return row;
         }
     }
 }

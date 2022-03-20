@@ -13,18 +13,35 @@ namespace Lab02
     {
         private Node head;
         private Node tail;
-        private int count;
-        public int Count { get { return count; } }
+        private Node d;
 
         /// <summary>
-        /// Constructor
+        /// Construcotr
         /// </summary>
+        /// <param name="head"></param>
+        /// <param name="tail"></param>
         public Citizen()
         {
             head = null;
             tail = null;
-            count = 0;
         }
+
+
+
+        /** Address of the head of the list is assigned */
+        public void Begin()
+        { d = head; }
+        /** Interface variable gets address of the next entry*/
+        public void Next()
+        { d = d.next; }
+        /** Return true, if list is empty*/
+        public bool Exist()
+        { return d != null; }
+        //-----------------------------------------------
+        /** Return data according to the interface address*/
+        public CitizenData Get()
+        { return d.Data; }
+
         /// <summary>
         /// Adds money to the specified citizen using his FirstName and Last name. 
         /// If the citizen does not exists, adds him to the LinkedList
@@ -36,9 +53,10 @@ namespace Lab02
         public void AddMoney(string lastName, string firstName, string address, double taxSum)
         {
             // If Citizen exists, adds sum to his current balance
-            for (Node curr = head; curr != null; curr = curr.next)
+            for (Begin(); Exist(); Next())
             {
-                if (curr.LastName == lastName && curr.FirstName == firstName)
+                CitizenData curr = Get();
+                if (curr.LastName == lastName && curr.FirstName == firstName && curr.Address == address)
                 {
                     curr.TaxSum += taxSum;
                     return;
@@ -46,18 +64,17 @@ namespace Lab02
             }
 
             // If No citizen was found, adds the citizen to Linked List
-            count++;
             if (head == null)
             {
                 head = new Node(lastName, firstName, address);
-                head.TaxSum = taxSum;
+                head.Data.TaxSum = taxSum;
                 tail = head;
             }
             else
             {
                 tail.next = new Node(lastName, firstName, address);
                 tail = tail.next;
-                tail.TaxSum = taxSum;
+                tail.Data.TaxSum = taxSum;
             }
 
         }
@@ -67,7 +84,7 @@ namespace Lab02
         /// </summary>
         public void RemoveUnderAverage()
         {
-            if (count == 0)
+            if (head == null)
                 return;
 
             Node prev = head;
@@ -76,11 +93,10 @@ namespace Lab02
 
             while(curr != null)
             {
-                if(curr.TaxSum < average)
+                if(curr.Data.TaxSum < average)
                 {
                     prev.next = curr.next;
                     curr = curr.next;
-                    count--;
                 }
                 else
                 {
@@ -100,10 +116,9 @@ namespace Lab02
         private void RemoveUnderAverageHead(double average)
         {
             Node curr = head;
-            while(curr.TaxSum < average)
+            while(curr.Data.TaxSum < average)
             {
                 curr = curr.next;
-                count--;
             }
             head = curr;
         }
@@ -117,7 +132,6 @@ namespace Lab02
             if (curr == null)
             {
                 tail = null;
-                count = 0;
                 return;
             }
 
@@ -129,15 +143,45 @@ namespace Lab02
         }
 
         /// <summary>
+        /// Returns the total amount citizens payed for taxes
+        /// </summary>
+        /// <returns></returns>
+        public double Sum()
+        {
+            Node curr = head;
+            double sum = 0;
+            while (curr != null)
+            {
+                sum += curr.Data.TaxSum;
+                curr = curr.next;
+            }
+            return sum;
+        }
+
+        public double GetAverage()
+        {
+            Node curr = head;
+            double sum = 0;
+            int i = 0;
+            while (curr != null)
+            {
+                sum += curr.Data.TaxSum;
+                i++;
+                curr = curr.next;
+            }
+            return (double)sum/i;
+        }
+
+        /// <summary>
         /// Removes citizens who did not pay taxes specified month
         /// </summary>
         /// <param name="taxCode"> Tax Code of the tax</param>
         /// <param name="month">Specified Month </param>
         /// <param name="data">CitizenTaxData to see what citizen payed what tax at the specified month</param>
-        public void RemoveWhoDidNotPayTax(string taxCode, string month, CitizenTaxData data)
+        public void RemoveWhoDidNotPayTax(string taxCode, string month, CitizenTax data)
         {
             {
-                if (count == 0)
+                if (head == null)
                     return;
 
                 Node prev = head;
@@ -146,11 +190,10 @@ namespace Lab02
                 while (curr != null)
                 {
                     // Checks if the citizen has payed Taxes in CitizenTaxData on specified Month
-                    if (curr != null && data.CitizenPayed(taxCode, month, curr.LastName, curr.FirstName) == false)
+                    if (curr != null && data.CitizenPayed(taxCode, month, curr.Data.LastName, curr.Data.FirstName) == false)
                     {
                         prev.next = curr.next;
                         curr = curr.next;
-                        count--;
                     }
                     else
                     {
@@ -170,138 +213,57 @@ namespace Lab02
         /// <param name="taxCode">Tax code of the specified tax</param>
         /// <param name="month">specified month to check</param>
         /// <param name="data">CitizenTaxData to check if the first element of the linked list payed for taxes</param>
-        private void RemoveWhoDidNotPayTaxHead(string taxCode, string month, CitizenTaxData data)
+        private void RemoveWhoDidNotPayTaxHead(string taxCode, string month, CitizenTax data)
         {
             Node curr = head;
             // Checks if the citizen has payed Taxes in CitizenTaxData on specified Month
-            while (curr != null && data.CitizenPayed(taxCode, month, curr.LastName, curr.FirstName) == false)
+            while (curr != null && data.CitizenPayed(taxCode, month, curr.Data.LastName, curr.Data.FirstName) == false)
             {
                 curr = curr.next;
-                count--;
             }
             head = curr;
         }
 
-            public double GetAverage()
-        {  
-            return count > 0 ? (double)Sum() / count : 0;
-        }
 
         /// <summary>
         /// Sorts LinkedList A-Z using keys: address, last name, first name. Does data swap instead of pointers.
         /// </summary>
         public void Sort()
         {
-            if (count > 1)
+            Node timer = head;
+            while(timer != null)
             {
-                for (int i = 0; i < count; i++)
+                Node curr = head;
+                Node next = head.next;
+                while(next != null)
                 {
-                    Node curr = head;
-                    Node next = head.next;
-                    for (int j = 0; j < count - 1 - i; j++)
+                    if (curr.Data.CompareTo(next.Data) > 0)
                     {
-                        if (curr.CompareTo(next) > 0)
-                        {
-                            curr.SwapData(next);
-                        }
-                        curr = next;
-                        next = next.next;
+                        curr.SwapData(next);
                     }
+                    curr = next;
+                    next = next.next;
                 }
+                timer = timer.next;
             }
         }
 
-        /// <summary>
-        /// Returns the total amount citizens payed for taxes
-        /// </summary>
-        /// <returns></returns>
-        public double Sum()
-        {
-            Node curr = head;
-            double sum = 0;
-            while (curr != null)
-            {
-                sum += curr.TaxSum;
-                curr = curr.next;
-            }
-            return sum;
-        }
-
-        /// <summary>
-        /// Returns citizen in string format
-        /// </summary>
-        /// <param name="index"> specified citizen</param>
-        /// <returns>string format of the citizen for .txt output</returns>
-        public string ToString(int index)
-        {
-            int i = 0;
-            for (Node curr = head; curr != null; curr = curr.next)
-            {
-                if (i == index)
-                    return curr.ToString();
-                i++;
-            }
-            return "";
-        }
-
-
-        /// <summary>
-        /// Returns cictizen in TableRow format for the specified citizen
-        /// </summary>
-        /// <param name="index">Index of the citizen</param>
-        /// <returns>TableRow format of the specified citizen</returns>
-        public TableRow GetRow(int index)
-        {
-            int i = 0;
-            TableRow row = new TableRow();
-            for (Node curr = head; curr != null; curr = curr.next)
-            {
-                if (i == index)
-                {
-                    row.Cells.Add(TaskUtils.CreateCell(curr.LastName));
-                    row.Cells.Add(TaskUtils.CreateCell(curr.FirstName));
-                    row.Cells.Add(TaskUtils.CreateCell(curr.Address));
-                    row.Cells.Add(TaskUtils.CreateCell(curr.TaxSum.ToString()));
-                    return row;
-                }
-                i++;
-            }
-            return row;
-        }
 
         /// <summary>
         /// Node class to be used to save every citizen seperately 
         /// </summary>
-        internal class Node
+        class Node
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string Address { get; set; }
+            public CitizenData Data { get; set; }
+            public Node next { get; set; }
 
-            public double TaxSum { get; set; }
-
-            public Node next;
             /// <summary>
             /// Constructor
             /// </summary>
-            /// <param name="lastName">Last name of the citizen</param>
-            /// <param name="firstName">First Name of the citizen</param>
-            /// <param name="address">Address of the citizen</param>
+            /// <param name="data">CitizenData pointer</param>
             public Node(string lastName, string firstName, string address)
             {
-                LastName = lastName;
-                FirstName = firstName;
-                Address = address;
-                TaxSum = 0;
-            }
-
-            /// <summary>
-            /// To String override
-            /// </summary>
-            /// <returns>stringg format of the citizen</returns>
-            public override string ToString()
-            {
-                return $"{LastName,-20} {FirstName,-20}|{Address,-20}|{TaxSum,10:f}|";
+                Data = new CitizenData(lastName, firstName, address);
             }
 
             /// <summary>
@@ -310,38 +272,9 @@ namespace Lab02
             /// <param name="other">Other node to be swapped with</param>
             public void SwapData(Node other)
             {
-                string lastName = LastName;
-                string firstName = FirstName;
-                string address = Address;
-                double taxSum = TaxSum;
-                LastName = other.LastName;
-                FirstName = other.FirstName;
-                Address = other.Address;
-                TaxSum = other.TaxSum;
-                other.LastName = lastName;
-                other.FirstName = firstName;
-                other.Address = address;
-                other.TaxSum = taxSum;
-            }
-
-            /// <summary>
-            /// Compares to other Node of citizen type
-            /// </summary>
-            /// <param name="other"></param>
-            /// <returns></returns>
-            public int CompareTo(Node other)
-            {
-                int comparison = other.Address.CompareTo(Address);
-                if (comparison == 0 )
-                {
-                    comparison = other.LastName.CompareTo(LastName);
-                    if (comparison == 0)
-                    {
-                        comparison = other.FirstName.CompareTo(FirstName);
-                    }
-                }
-                
-                return comparison;
+                CitizenData temp = Data;
+                Data = other.Data;
+                other.Data = temp;
             }
         }
     }

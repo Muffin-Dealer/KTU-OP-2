@@ -18,14 +18,14 @@ namespace Lab02
         /// <returns>Tax class object</returns>
         public static Tax ReadTaxData(string fileLoc)
         {
-            Tax TaxData = new Tax();
+            Tax taxes = new Tax();
             string[] lines = File.ReadAllLines(fileLoc);
             foreach (string line in lines)
             {
                 string[] elements = line.Split(';');
-                TaxData.Add(elements[0], elements[1], double.Parse(elements[2]));
+                taxes.Add(new TaxData(elements[0], elements[1], double.Parse(elements[2])));
             }
-            return TaxData;
+            return taxes;
         }
 
         /// <summary>
@@ -33,14 +33,15 @@ namespace Lab02
         /// </summary>
         /// <param name="fileLoc">Location of .txt file</param>
         /// <returns>CitizenTaxData class object</returns>
-        public static CitizenTaxData ReadCitizenTaxData(string fileLoc)
+        public static CitizenTax ReadCitizenTaxData(string fileLoc)
         {
-            CitizenTaxData data = new CitizenTaxData();
+            CitizenTax data = new CitizenTax();
             string[] lines = File.ReadAllLines(fileLoc);
             foreach (string line in lines)
             {
                 string[] elements = line.Split(';');
-                data.Add(elements[0], elements[1], elements[2], elements[3], elements[4], int.Parse(elements[5]));
+                CitizenTaxData temp = new CitizenTaxData(elements[1], elements[0], elements[2], elements[3], elements[4], int.Parse(elements[5]));
+                data.Add(temp);
             }
             return data;
         }
@@ -75,16 +76,17 @@ namespace Lab02
         /// <param name="fileLoc">Location/name of the file</param>
         /// <param name="data">data to append to the .txt file</param>
         /// <param name="header">Header text of the data file</param>
-        public static void WriteCitizenTaxData(string fileLoc, CitizenTaxData data, string header)
+        public static void WriteCitizenTaxData(string fileLoc, CitizenTax data, string header)
         {
             using (StreamWriter writer = new StreamWriter(fileLoc, append:true))
             {
                 writer.WriteLine(header);
                 writer.WriteLine();
                 writer.WriteLine($"{"LastName",-20} {"FirstName",-20}|{"Address",-20}|{"Month",-15}|{"TaxCode",-20}|{"TaxAmount",10}|");
-                for (int i = 0; i < data.Count; i++)
+                for (data.Begin(); data.Exist(); data.Next())
                 {
-                    writer.WriteLine(data.ToString(i));
+                    CitizenTaxData temp = data.Get();
+                    writer.WriteLine(temp.ToString());
                 }
                 writer.WriteLine();
             }
@@ -103,9 +105,10 @@ namespace Lab02
                 writer.WriteLine(header);
                 writer.WriteLine();
                 writer.WriteLine($"{"LastName",-20} {"FirstName",-20}|{"Address",-20}|{"TaxSum",-10}|");
-                for (int i = 0; i < data.Count; i++)
+                for (data.Begin(); data.Exist(); data.Next())
                 {
-                    writer.WriteLine(data.ToString(i));
+                    CitizenData temp = data.Get();
+                    writer.WriteLine(temp.ToString());
                 }
                 writer.WriteLine();
             }
@@ -124,9 +127,10 @@ namespace Lab02
                 writer.WriteLine(header);
                 writer.WriteLine();
                 writer.WriteLine($"{"TaxCode",-20}|{"TaxName",-20}|{"Price",10:2f}|");
-                for (int i = 0; i < data.Count; i++)
+                for (data.Begin(); data.Exist(); data.Next())
                 {
-                    writer.WriteLine(data.ToString(i));
+                    TaxData temp = data.Get();
+                    writer.WriteLine(temp.ToString());
                 }
                 writer.WriteLine();
             }

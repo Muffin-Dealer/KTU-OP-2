@@ -11,16 +11,33 @@ namespace Lab02
     /// </summary>
     public static class TaskUtils
     {
+
         /// <summary>
-        /// Creates TableCell from text to speed up TableCell creation
+        /// Creates Citizen class object using Tax object
         /// </summary>
-        /// <param name="text">string text to add to the table cell</param>
-        /// <returns>TableCell class object</returns>
-        public static TableCell CreateCell(string text)
+        /// <param name="TaxList">Tax class object</param>
+        /// <param name="citizenTaxList">CitizenTax object</param> 
+        /// <returns>Citizen class object</returns>
+        public static Citizen CreateCitizenData(Tax TaxList, CitizenTax citizenTaxList)
         {
-            TableCell cell = new TableCell();
-            cell.Text = text;
-            return cell;
+            Citizen citizens = new Citizen();
+            for (citizenTaxList.Begin(); citizenTaxList.Exist(); citizenTaxList.Next())
+            {
+                CitizenTaxData citizenTaxData = citizenTaxList.Get();
+                for (TaxList.Begin(); TaxList.Exist(); TaxList.Next())
+                {
+                    TaxData taxData = TaxList.Get();
+                    if(citizenTaxData.TaxCode == taxData.TaxCode)
+                    {
+                        citizens.AddMoney(citizenTaxData.LastName, citizenTaxData.FirstName, citizenTaxData.Address, (double)taxData.Price * citizenTaxData.TaxAmount);
+
+                    }
+                }
+            }
+
+            return citizens;
         }
+
+
     }
 }
