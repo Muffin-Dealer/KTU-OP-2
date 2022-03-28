@@ -68,3 +68,8 @@ LastName             FirstName           |Address             |TaxSum    |
  vardas2             pavardė2            | adresas2           |    434.32|
  vardas1             pavardė1            | adresas1           |    663.46|
 
+Citizens who paid TaxCode: "31" on Month: "1"
+
+LastName             FirstName           |Address             |TaxSum    |
+ vardas2             pavardė2            | adresas2           |    434.32|
+

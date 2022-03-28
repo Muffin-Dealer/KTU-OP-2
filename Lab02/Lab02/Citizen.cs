@@ -66,13 +66,15 @@ namespace Lab02
             // If No citizen was found, adds the citizen to Linked List
             if (head == null)
             {
-                head = new Node(lastName, firstName, address);
+                CitizenData data = new CitizenData(lastName, firstName, address);
+                head = new Node(data);
                 head.Data.TaxSum = taxSum;
                 tail = head;
             }
             else
             {
-                tail.next = new Node(lastName, firstName, address);
+                CitizenData data = new CitizenData(lastName, firstName, address);
+                tail.next = new Node(data);
                 tail = tail.next;
                 tail.Data.TaxSum = taxSum;
             }
@@ -261,9 +263,10 @@ namespace Lab02
             /// Constructor
             /// </summary>
             /// <param name="data">CitizenData pointer</param>
-            public Node(string lastName, string firstName, string address)
+            public Node(CitizenData data)
             {
-                Data = new CitizenData(lastName, firstName, address);
+                Data = data;
+                next = null;
             }
 
             /// <summary>
